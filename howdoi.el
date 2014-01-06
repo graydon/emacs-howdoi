@@ -256,6 +256,9 @@ results."
       (while (search-forward tag nil t)
         (replace-match "" nil t)))))
 
+(defun howdoi-strip-html-entities (s)
+  (s-replace-all html2text-replace-list s))
+
 (defun howdoi-stackoverflow-retrieve-code-snippets ()
   "Retrieve code snippets from the stackoverflow."
   (goto-char (point-min))
@@ -263,11 +266,11 @@ results."
     (while (search-forward-regexp "<div[^>]*?class=\"answer" nil t)
       (if (search-forward-regexp "<pre[^>]*>" nil t)
           (when (search-forward-regexp "<code>\\([^<]*?\\)</code>" nil t)
-            (let ((str (match-string 1)))
+            (let ((str (howdoi-strip-html-entities (match-string 1))))
               (setq result (append result `(,str)))
               (setq not-found nil)))
         (when (search-forward-regexp "<code>\\(.*?\\)</code>" nil t)
-          (let ((str (match-string 1)))
+          (let ((str (howdoi-strip-html-entities (match-string 1))))
             (setq result (append result `(,str)))))))
     result))
 
