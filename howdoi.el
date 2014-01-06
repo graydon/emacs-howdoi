@@ -226,6 +226,7 @@ results."
               (insert str)
               (goto-char (point-min))
               (howdoi-strip-html-tags '("p" "pre" "code" "hr"))
+              (html2text)
               (setq result (buffer-substring-no-properties
                             (point-min)
                             (point-max))))))))
@@ -244,6 +245,7 @@ results."
               (insert str)
               (goto-char (point-min))
               (howdoi-strip-html-tags '("p" "pre" "code" "hr"))
+              (html2text)
               (setq result (append result `(,(buffer-substring-no-properties (point-min) (point-max))))))))))
     result))
 
